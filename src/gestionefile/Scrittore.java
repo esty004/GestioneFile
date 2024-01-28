@@ -27,26 +27,15 @@ public class Scrittore implements Runnable {
     }
 
     public void scrivi() {
-        BufferedWriter br = null;
-
-        try {
-            synchronized (nomeFile) {
-                br = new BufferedWriter(new FileWriter(nomeFile));
-                br.write("<" + username + ">");
-                br.write("\n\r");
-                br.write("<" + password + ">");
-                br.write("\n\r");
-                br.flush();
-            }
+        
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(nomeFile))) {
+            br.write("<" + username + ">");
+            br.write("\n\r");
+            br.write("<" + password + ">");
+            br.write("\n\r");
+            br.flush();
         } catch (IOException ex) {
             Logger.getLogger(Scrittore.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (br != null)
-                try {
-                br.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Scrittore.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 

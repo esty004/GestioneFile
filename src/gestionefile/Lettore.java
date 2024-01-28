@@ -21,16 +21,14 @@ public class Lettore extends Thread {
 
     public void leggi() {
         synchronized (nomeFile) {
-            FileReader fr;
             int i;
-            try {
-                fr = new FileReader(nomeFile);
+            try(FileReader fr = new FileReader(nomeFile)) {
                 while ((i = fr.read()) != -1) {
                     System.out.println((char) i);
                 }
 
                 System.out.println("\n\r");
-                fr.close();
+                
             } catch (IOException ex) {
                 System.err.println("Errore in lettura!");
             }
