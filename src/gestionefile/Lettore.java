@@ -3,36 +3,42 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package gestionefile;
+
 import java.io.IOException;
 import java.io.FileReader;
+
 /**
  *
  * @author Magdalena
  */
-public class Lettore extends Thread{
+public class Lettore extends Thread {
+
     String nomeFile;
-    
-    public Lettore(String nomeFile){
+
+    public Lettore(String nomeFile) {
         this.nomeFile = nomeFile;
     }
-    
-    public void leggi(){
-        FileReader fr;
-        int i;
-        try{
-            fr = new FileReader(nomeFile);
-            while((i=fr.read()) != -1)
-                System.out.println((char) i);
-            
-            System.out.println("\n\r");
-            fr.close();
-        } catch(IOException ex){
-            System.err.println("Errore in lettura!");
+
+    public void leggi() {
+        synchronized (nomeFile) {
+            FileReader fr;
+            int i;
+            try {
+                fr = new FileReader(nomeFile);
+                while ((i = fr.read()) != -1) {
+                    System.out.println((char) i);
+                }
+
+                System.out.println("\n\r");
+                fr.close();
+            } catch (IOException ex) {
+                System.err.println("Errore in lettura!");
+            }
         }
     }
+
     @Override
-    public void run(){
+    public void run() {
         leggi();
     }
 }
-
